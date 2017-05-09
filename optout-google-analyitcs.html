@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>joelesli.com</title>
+  </head>
+  <body>
+    <h2><a href="https://joelesli.com">JOELESLI</a></h2>
+    <a id="optout" href="#opt-cookies">Google Analytics deaktivieren</a></p>
+
+    <script data-mce-type="text/javascript">
+      //To check if the opt-out cookie is working, checkout the browser cookies after refreshing the page
+
+
+      //Add a google property to the array
+      //This is convenient when you have multiple sites with different property ids
+      //and want to enable/disable tracking on all properties
+      var gaProperties = ['UA-XXXXXXX-X'];
+
+
+      // Disable tracking if the opt-out cookie exists.
+      //Style accordingly
+      var canOptin = true;
+      for (i = 0; i < gaProperties.length; i++) {
+        var disableStr = 'ga-disable-' + gaProperties[i];
+        if (document.cookie.indexOf(disableStr + '=true') > -1) {
+          window[disableStr] = true;
+          styleOptout();
+          canOptin = false;
+        }
+      }
+
+      if (canOptin) {
+        styleOptin();
+      }
+
+      // Opt-out function
+      function gaOptout() {
+        console.log('Opting out');
+        for (i = 0; i < gaProperties.length; i++) {
+          var disableStr1 = 'ga-disable-' + gaProperties[i] ;
+          document.cookie = disableStr1 + '=true; expires=Thu, 31 Dec 2099 23:59:59 UTC; path=/';
+          window[disableStr1] = true;
+        }
+        styleOptout();
+      }
+
+      // Opt-in function
+      function gaOptin() {
+        console.log('Opting in');
+        for (i = 0; i < gaProperties.length; i++) {
+          var disableStr1 = 'ga-disable-' + gaProperties[i] ;
+          document.cookie = disableStr1 + '=false; expires=Thu, 31 Dec 2099 23:59:59 UTC; path=/';
+          window[disableStr1] = false;
+        }
+        styleOptin();
+      }
+
+      function styleOptout() {
+        var optout = document.getElementById("optout");
+        optout.style.color = "#ff8702";
+        optout.innerText = "Google Analytics ist bereits deaktiviert";
+        optout.onclick = function(){gaOptin();};
+      }
+
+      function styleOptin() {
+        var optin = document.getElementById("optout");
+        optin.style.color = "#666";
+        optin.innerText = "Google Analytics deaktivieren";
+        optout.onclick = function(){gaOptout();};
+      }
+
+    // Set to the same value as the web property used on the site
+      var gaProperty = gaProperties[0];
+
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', gaProperty, 'auto');
+      ga('set', 'anonymizeIp', true);
+      ga('send', 'pageview');
+    </script>
+
+  </body>
+</html>
